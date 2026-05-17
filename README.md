@@ -1,6 +1,12 @@
-# 📄 AI Resume Analyzer & Job Matcher
+# 🤖 GenAI Resume Analyzer using Gemini API
 
 An AI-powered Resume Analyzer built using Python and Streamlit that compares resumes with job descriptions and provides ATS-style matching scores, missing skills analysis, and resume improvement suggestions.
+
+---
+
+## 🌐 Live Demo
+
+[Click Here to Use the App](https://ai-resume-analyzer-job-matcher-qqxkvzohcrugc2pvql69qx.streamlit.app/)
 
 ---
 

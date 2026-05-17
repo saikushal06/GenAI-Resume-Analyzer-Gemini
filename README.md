@@ -50,7 +50,8 @@ An AI-powered Resume Analyzer built using Python and Streamlit that compares res
 
 ## 📷 Project Screenshot
 
-(Add your screenshot here later)
+<img width="1919" height="1016" alt="image" src="https://github.com/user-attachments/assets/e1c6341f-402d-4c25-af60-d84eb9e34b4a" />
+
 
 ---
 

@@ -3,6 +3,7 @@ import PyPDF2
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from google import genai
 
 
 st.set_page_config(
@@ -95,9 +96,53 @@ def calculate_similarity(resume_text, jd_text):
     score = cosine_similarity(vectors[0:1], vectors[1:2])[0][0]
     return round(score * 100, 2)
 
-
+st.sidebar.header("🤖 AI Settings")
+gemini_api_key = st.sidebar.text_input("Enter Gemini API Key", type="password")
 resume_file = st.file_uploader("Upload Resume PDF", type=["pdf"])
 job_description = st.text_area("Paste Job Description", height=250)
+def get_ai_suggestions(api_key, resume_text, jd_text, missing_skills, match_score):
+    if not api_key:
+        return None
+
+    try:
+        client = genai.Client(api_key=api_key)
+
+        prompt = f"""
+        You are an expert ATS resume reviewer.
+
+        Analyze this resume against the job description and give practical suggestions.
+
+        ATS Match Score: {match_score}%
+
+        Missing Skills:
+        {", ".join(missing_skills) if missing_skills else "No major missing skills"}
+
+        Resume Text:
+        {resume_text[:4000]}
+
+        Job Description:
+        {jd_text[:3000]}
+
+        Give output in this format:
+        1. Overall Review
+        2. Strengths
+        3. Weaknesses
+        4. Skills to Add
+        5. Resume Bullet Point Improvements
+        6. Final Advice
+
+        Keep it simple and useful for a student resume.
+        """
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
+
+        return response.text
+
+    except Exception as e:
+        return f"AI suggestion failed: {e}"
 
 if st.button("Analyze Resume"):
     if resume_file is None:
@@ -161,3 +206,18 @@ if st.button("Analyze Resume"):
 
         st.write("Use action verbs like built, developed, implemented, analyzed, optimized, and deployed.")
         st.write("Add project impact, technologies used, and measurable results wherever possible.")
+        st.subheader("🤖 AI-Powered Resume Suggestions")
+        if gemini_api_key:
+            with st.spinner("Generating AI suggestions..."):
+                ai_feedback = get_ai_suggestions(
+                    gemini_api_key,
+                    cleaned_resume,
+                    cleaned_jd,
+                    missing_skills,
+                    match_score
+                )   
+            st.markdown(ai_feedback)
+        else:
+            st.info("Enter your Gemini API key in the sidebar to get AI-powered resume suggestions.")
+
+

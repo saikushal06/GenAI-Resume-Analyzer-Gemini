@@ -3,3 +3,4 @@ scikit-learn
 PyPDF2
 pandas
 numpy
+google-genai

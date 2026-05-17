@@ -53,4 +53,4 @@ An AI-powered Resume Analyzer built using Python and Streamlit that compares res
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/AI-Resume-Analyzer-Job-Matcher.git
+git clone https://github.com/saikushal06/AI-Resume-Analyzer-Job-Matcher.git
